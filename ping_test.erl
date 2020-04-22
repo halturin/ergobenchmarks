@@ -39,13 +39,26 @@ handleReport(L, R) ->
     end. 
 
 ping(number, P, ReportTo, N, StartedAt) ->
-    ping(12345, P, ReportTo, N, StartedAt);
-ping(string, P, ReportTo, N, StartedAt) ->
-    ping("hello world", P, ReportTo, N, StartedAt);
-ping(pid, P, ReportTo, N, StartedAt) ->
-    ping(self(), P, ReportTo, N, StartedAt);
+    ping(1234567890, P, ReportTo, N, StartedAt);
+ping(map, P, ReportTo, N, StartedAt) ->
+    M = #{
+    key1 => 1234567890,
+    "key2" => 1.23456789,
+    1234567890 => "value1",
+    1.23456789 => value2,
+    pid1 => self(),
+    key2 => 1234567890,
+    "key3" => 1.23456789,
+    1234567891 => "value2",
+    1.23456790 => value3,
+    pid2 => self()
+    },
+    ping(M, P, ReportTo, N, StartedAt);
+ping(tuple, P, ReportTo, N, StartedAt) ->
+    T = { key1, 1234567890, "key2" , 1.23456789, 1234567890 , "value1", 1.23456789 , value2, pid1 , self()},
+    ping(T, P, ReportTo, N, StartedAt);
 ping(list, P, ReportTo, N, StartedAt) ->
-    L = [self() || _ <- lists:seq(1,100)],
+    L = [self() || _ <- lists:seq(1,200)],
     ping(L, P, ReportTo, N, StartedAt);
 
 ping(Message, P, ReportTo, N, StartedAt) ->
