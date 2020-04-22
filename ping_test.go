@@ -66,18 +66,32 @@ func BenchmarkNodeParallel(b *testing.B) {
 	ii := 0
 
 	switch message {
-	case "string":
-		msg = "hello world"
-	case "pid":
-		msg = p1.Self()
+	case "tuple":
+		msg = etf.Tuple{
+			etf.Atom("key1"), 1234567890, "key2", 1.23456789, 1234567890, "value1",
+			1.23456789, etf.Atom("value2"), etf.Atom("pid1"), p1.Self(),
+		}
+	case "map":
+		msg = etf.Map{
+			etf.Atom("key1"): 1234567890,
+			"key2":           1.23456789,
+			1234567890:       "value1",
+			1.23456789:       etf.Atom("value2"),
+			etf.Atom("pid1"): p1.Self(),
+			etf.Atom("key2"): 1234567890,
+			"key3":           1.23456789,
+			1234567891:       "value2",
+			1.23456790:       etf.Atom("value3"),
+			etf.Atom("pid2"): p1.Self(),
+		}
 	case "list":
 		list := []etf.Pid{}
-		for i := 0; i < 100; i++ {
+		for i := 0; i < 200; i++ {
 			list = append(list, p1.Self())
 		}
 		msg = list
 	default:
-		msg = 12345
+		msg = 1234567890
 	}
 	b.RunParallel(func(pb *testing.PB) {
 		p1, e1 := node1.Spawn("", ergo.ProcessOptions{}, &benchGS{})
