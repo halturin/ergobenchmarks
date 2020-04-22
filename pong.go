@@ -54,7 +54,7 @@ func (gs *PongGenServer) HandleCall(from etf.Tuple, message etf.Term, state inte
 }
 
 func (gs *PongGenServer) HandleInfo(message etf.Term, state interface{}) (string, interface{}) {
-	fmt.Printf("HandleInfo: %#v (state value %d) \n", message, state.(*State).value)
+	fmt.Printf("HandleInfo: %#v  \n", message)
 	return "noreply", state
 }
 
@@ -78,7 +78,7 @@ func (gs *Pong) Terminate(reason string, state interface{}) {
 }
 
 func main() {
-	node := ergo.CreateNode("demo@127.0.0.1", "cookie123", ergo.NodeOptions{})
+	node := ergo.CreateNode("erl-demo@127.0.0.1", "cookie123", ergo.NodeOptions{})
 	gs1 := &PongGenServer{}
 
 	// spawn new process of genserver
